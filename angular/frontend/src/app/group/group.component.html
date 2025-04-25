@@ -1,0 +1,59 @@
+<div class="d-flex vh-100">
+  <!-- Left Sidebar -->
+  <div class="col-3 p-4 bg-light border-end overflow-auto">
+    <h3 class="mb-3">New Group</h3>
+    <input [(ngModel)]="newGroup.name" placeholder="Name" class="form-control mb-2">
+    <input [(ngModel)]="newGroup.code" placeholder="Code" class="form-control mb-2">
+    <input [(ngModel)]="newGroup.status" placeholder="Status" class="form-control mb-2">
+
+    <button (click)="createGroup()" class="btn btn-primary w-100 mb-4">Create</button>
+    <ul class="list-group">
+      <li *ngFor="let g of groups" (click)="selectGroup(g)" class="list-group-item list-group-item-action">
+        {{ g.name }}
+      </li>
+    </ul>
+  </div>
+  <div class="col-9 p-4 overflow-auto" *ngIf="selectedGroup">
+     <!-- <div class="card mb-4">
+      <div class="card-body">
+        <h4 class="card-title">{{ selectedGroup.name }}</h4>
+        <p class="card-text text-muted">Status: {{ selectedGroup.status }}</p>
+      </div>
+    </div> -->
+    <div *ngIf="showNoteForm" class="card mb-4 p-3 shadow-sm position-fixed top-0 -0 m-4" style="width: 300px;z-index:99;">
+      <h5 class="mb-3">New Note</h5>
+      <input [(ngModel)]="newNote.title" class="form-control mb-2" placeholder="Title" />
+      <textarea [(ngModel)]="newNote.notes" class="form-control mb-2" placeholder="Notes"></textarea>
+      <input [(ngModel)]="newNote.status" class="form-control mb-2" placeholder="Status" />
+      <div class="d-flex gap-2">
+        <button class="btn btn-primary flex-fill" (click)="createNote(); showNoteForm = false">Add Note</button>
+        <button class="btn btn-outline-secondary flex-fill" (click)="showNoteForm = false">Cancel</button>
+      </div>
+    </div>
+    <!-- Notes Cards -->
+<div class="row row-cols-1 row-cols-md-3 g-4 mt-4">
+  <div *ngFor="let note of selectedGroup.notes" class="col">
+    <div class="card h-100 shadow-sm" [class.border-primary]="note.id === activeNote?.id" (click)="selectNote(note)">
+      <div class="card-body">
+        <h5 class="card-title text-dark fw-bold">{{ note.title }}</h5>
+        <p class="card-text text-secondary">{{ note.notes }}</p>
+        <div class="text-muted small">Status: {{ note.status }}</div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="position-fixed bottom-0 start-50 translate-middle-x m-4">
+  <div class="btn-group">
+    <button class="btn btn-outline-success" (click)="showNoteForm = true">
+      <i class="bi bi-plus-square"></i>
+    </button>
+    <button class="btn btn-outline-warning" (click)="duplicateNote(activeNote)">
+      <i class="bi bi-files"></i>
+    </button>
+    <button class="btn btn-outline-danger" (click)="deleteNote(activeNote.id)">
+      <i class="bi bi-trash"></i>
+    </button>
+  </div>
+</div>
+  </div>
+</div>
